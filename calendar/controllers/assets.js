@@ -29,7 +29,7 @@ exports.setBSON = function(bs) {
 exports.setConfig = function(conf){
     config = conf;
     return this;
-},
+};
 
 exports.findById = function(req, res) {
     var id = req.params.id;
@@ -64,6 +64,7 @@ exports.findAll = function(req, res) {
 };
 
 exports.add = function(req, res) {
+    console.log('add:assets.js');
     var asset = req.body;
     var query = {};
     query.name  = asset.name;
@@ -72,16 +73,18 @@ exports.add = function(req, res) {
     dbi.collection(assetsCol, function(err, collection) {
         collection.find(query).toArray(function(err, items) {
             if(items.length>0){
-                updateNode(req,res, items,asset);
+                console.log('add:assets: item found, ready to updateNode');
+                updateNode(req, res, asset, items);
             }else{
-                createNode(req,res, items,asset);
+                console.log('add:assets: item NOT found, ready to createNode');
+                createNode(req, res, asset);
             }
         });
     });
-}
+};
 
-var createNode = function(req,res, items,asset) {
-    console.log('createNode:assets.js insert new node');
+var createNode = function(req, res, asset) {
+    console.log('KreateNode:assets.js insert new node');
     dbi.collection(assetsCol, function(err, collection) {
         collection.insert(asset, function(err, result) {
             if (err) {
@@ -92,12 +95,16 @@ var createNode = function(req,res, items,asset) {
             }
         });
     });
-}
+};
 
-var updateNode = function(req,res, items,newasset) {
+var updateNode = function(req,res, newasset, items) {
+    console.log('updateNode:assets.js ');
     var asset = items[0];
     var id = asset._id;
-    asset.versions.push(newasset.fileversion);
+
+    console.log('update node: '+newasset.slug+'['+newasset.versions[0]+']');
+   
+    asset.versions.push(newasset.versions[0]);
 
     dbi.collection(assetsCol, function(err, collection) {
         collection.update({'_id':asset._id}, asset, function(err, result) {
@@ -105,12 +112,12 @@ var updateNode = function(req,res, items,newasset) {
                 console.log('Error updating %s error: %s',assetsCol,err);
                 res.send({error: MSGS[0] + err});
             } else {
-                console.log('UPDATE: se insertaron exitosamente [%s] nodos',result);
+                console.log('UPDATE: ASSE insertaron exitosamente [%s] nodos',result);
                 res.send(asset);
             }
         });
     });
-}
+};
 
 exports.update = function(req, res) {
     var id = req.params.id;
@@ -124,7 +131,7 @@ exports.update = function(req, res) {
                 console.log('Error updating %s error: %s',assetsCol,err);
                 res.send({error: MSGS[0] + err});
             } else {
-                console.log('UPDATE: se insertaron exitosamente [%s] nodos',result);
+                console.log('UPDATE: se... insertaron exitosamente [%s] nodos',result);
                 res.send(asset);
             }
         });

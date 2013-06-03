@@ -125,7 +125,7 @@ window.AssetListItemView = Backbone.View.extend({
 
     initialize: function () {
         //this.listenTo(this.model, "change", this.render);
-        //this.model.bind("change", this.render, this);
+        this.model.bind("change", this.render, this);
         //this.model.bind("destroy", this.close, this);
     },
 

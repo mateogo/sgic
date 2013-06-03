@@ -18,12 +18,13 @@ module.exports = function (config, app) {
         res.redirect('/');
     });
 
+    var strutils = require(rootPath + '/calendar/util/strutils');
     app.post('/files', function(req,res,next){
         console.log("/files:routes.js ");
         var fs = require('fs');
         var times = new Date().getTime();
         var times_str = times.toString()+'_';
-        var filename = req.files.loadfiles.name.split(' ').join('_');
+        var filename = strutils.safeFileName(req.files.loadfiles.name);
         var serverFolder = rootPath + '/public/files' + req.body.folder;
         var urlPath = 'files' + req.body.folder + '/' + times_str + filename;
         var serverPath = serverFolder + '/' + filename;

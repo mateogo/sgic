@@ -1,10 +1,11 @@
 <div class="accordion-group">
   <div class="accordion-heading">
     <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" 
-    href="#collapseOne" style='display:inline;'><i class="icon-edit"></i><a href='<%= urlpath %>' ><%= name %></a></a>
+    href="#<%= _id %>" style='display:inline;'><i class="icon-edit"></i><a href='<%= urlpath %>' ><%= slug.substr(0,22) %></a></a>
   </div>
-  <div id="collapseOne" class="accordion-body collapse">
-    <input type='text' placeholder='nom arch'  name='slug' value='<%= slug %>' >
-    <input type='text' placeholder='denominación' name='denom' value='<%= denom %>' >
+  <div id="<%= _id %>" class="accordion-body collapse">
+    <input type='text' placeholder='nombre corto'  name='slug' value='<%= slug %>' >
+    <input type='text' placeholder='nombre corto'  name='slug' value='<%= slug %>' >
+    <input type='text' disabled name='name' value='<%= name %>' >
   </div>
 </div>

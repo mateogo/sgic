@@ -197,17 +197,19 @@ $(function(){
         xhr.open('POST', '/files');
         xhr.onload = function() {
             var srvresponse = JSON.parse(xhr.responseText);
-            var filelink = '<a href="'+srvresponse.urlpath+'" >'+srvresponse.name+'</a>'
-            console.log(xhr.responseText);
+            var filelink = '<a href="'+srvresponse.urlpath+'" >'+srvresponse.name.substr(0,20)+'</a>'
+            //console.log(xhr.responseText);
+            console.log('xhr.onload:projectetails: '+filelink);
             $('#uplprogressbar').css({'width':'100%;'});
             $('#uploaded').html(filelink);
             prjmodel.updateAsset(srvresponse, function(what){
                 utils.showAlert('Success', what, 'alert-error');
-                $('#uplprogressbar').css({'width':'0%;'});
-                $('#uplprogressbar').html('');
+                //$('#uplprogressbar').css({'width':'0%;'});
+                //$('#uplprogressbar').html('');
             });
         };
         xhr.upload.onprogress = function(event) {
+            console.log('xhr.onprogres:projectetails: !!! ');
             if (event.lengthComputable) {
                 var complete = (event.loaded / event.total * 100 | 0);
                 $('#uplprogressbar').css({'width':complete+'%'});
@@ -215,7 +217,5 @@ $(function(){
         };
         xhr.send(formData);
     },
-
-
 
 });

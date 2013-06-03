@@ -25,7 +25,7 @@ exports.setDb = function(db) {
 exports.setConfig = function(conf){
     config = conf;
     return this;
-},
+};
 exports.setBSON = function(bs) {
     BSON = bs;
     return this;
