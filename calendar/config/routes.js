@@ -30,6 +30,7 @@ module.exports = function (config, app) {
         var serverPath = serverFolder + '/' + filename;
         //console.log("path: "+serverPath);
         //console.log("req: "+JSON.stringify(req.files.loadfiles));
+        //todo: revisar filename
         console.log("req.body: "+JSON.stringify(req.body));
         console.log("req.files: "+JSON.stringify(filename));
 
