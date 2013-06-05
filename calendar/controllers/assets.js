@@ -68,6 +68,7 @@ exports.add = function(req, res) {
     var asset = req.body;
     var query = {};
     query.name  = asset.name;
+    query.related = asset.related;
 
     //paso-add-1.01: verifico si ya existe un asset con la misma URI
     dbi.collection(assetsCol, function(err, collection) {
@@ -102,8 +103,9 @@ var updateNode = function(req,res, newasset, items) {
     var asset = items[0];
     var id = asset._id;
 
-    console.log('update node: '+newasset.slug+'['+newasset.versions[0]+']');
+    console.log('update node: '+newasset.slug+' :['+newasset.urlpath+']');
    
+    asset.urlpath = newasset.urlpath;
     asset.versions.push(newasset.versions[0]);
 
     dbi.collection(assetsCol, function(err, collection) {

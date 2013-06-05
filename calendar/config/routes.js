@@ -27,7 +27,7 @@ module.exports = function (config, app) {
         var filename = strutils.safeFileName(req.files.loadfiles.name);
         var serverFolder = rootPath + '/public/files' + req.body.folder;
         var urlPath = 'files' + req.body.folder + '/' + times_str + filename;
-        var serverPath = serverFolder + '/' + filename;
+        var serverPath = serverFolder + '/' + times_str + filename;
         //console.log("path: "+serverPath);
         //console.log("req: "+JSON.stringify(req.files.loadfiles));
         //todo: revisar filename
