@@ -1,0 +1,116 @@
+<div class="row-fluid">
+
+    <form class="form-horizontal span12">
+        <!-- form-horizontal form-inLine div: container vs. row-fluid -->
+        <fieldset>
+            <div class="row">
+                <div class="span8">
+
+                    <div class="control-group">
+                        <label for="assetId" class="control-label">Id:</label>
+
+                        <div class="controls">
+                            <input id="assetId" name="id" type="text" value="<%= _id === null ? '' : _id %>" disabled/>
+
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="slug" class="control-label">Denom corta:</label>
+
+                        <div class="controls">
+
+                            <input type="text" class="input-large" id="slug" name="slug" placeholder='Descripcion corta' value="<%= slug %>"/>
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="denom" class="control-label">Denominacion:</label>
+
+                        <div class="controls">
+                            <input type="text" class="input-large" id="denom" name="denom" placeholder='Descripcion' value="<%= denom %>"/>
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="uri" class="control-label">URI:</label>
+                        <div class="controls">
+                            <input type="text" class="input-large" id="uri" name="uri" placeholder='uri' value="<%= uri %>" disabled/>
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="control-group">
+                        <label for="lastModifiedDate" class="control-label">Fecha Modificacion:</label>
+                        <div class="controls">
+                            <input type="text" class="input-large" id="lastModifiedDate" name="lastModifiedDate" placeholder='lastModifiedDate' value="<%= lastModifiedDate %>" disabled/>
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="mime" class="control-label">Mime: </label>
+                        <div class="controls">
+                            <input type="text" class="input-large" id="mime" name="mime" placeholder='mime' value="<%=mime %>" disabled/>
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+
+                   <div class="control-group">
+                        <label for="size" class="control-label">Tamaño: </label>
+                        <div class="controls">
+                            <input type="text" class="input-large" id="size" name="size" placeholder='size' value="<%=size %> bytes" disabled/>
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                   <div class="control-group">
+                        <label for="related['project']" class="control-label">Proyecto: </label>
+                        <div class="controls">
+                            <input type="text" class="input-large" id="related['project']" name="related['project']" placeholder='related' value="<%=related['project'] %>" disabled/>
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4">
+                    <div class="well" style="width: 180px;text-align: center;width:50%;margin: 0px auto;">
+                        <p><img id="picture" name='uploadfile' width="180" src="pics/prj-IC-M-TV.png"/></p>
+                        <p style="color:#999;">Para modificar la imagen, arrastre la nueva imgen al recuadro.</p>
+                        <p id='uploaded'></p>
+                        <div class="progress">
+                            <div id='uplprogressbar' class="bar" style="width: 0%;"></div>
+                        </div> 
+
+                    </div>
+                    <div class="well" style="width: 180px;text-align: center;width:50%;margin: 0px auto;">
+                        <a href="#"  class="btn btn-block btn-primary addresources">Alta recursos</a>
+                        <a href="#"  class="btn btn-block btn-success browseresources">Ver recursos</a>
+                        <a href="#"  class="btn btn-block btn-primary addquotation">Alta requisitoria</a>
+                        <a href="#"  class="btn btn-block btn-success browsequotations">Ver requisitorias</a>
+
+                    </div>
+ 
+                </div>
+
+            </div>
+
+        </fieldset>
+        <div class="form-actions span7">
+            <a href="#" class="btn btn-primary save">Guardar</a>
+            <a href="#" class="btn btn-danger delete">Eliminar</a>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="row-fluid status-bar">
+    <div class="span12">
+        <div class="alert alert-success" style="display: none">
+            <b>INFO:</b> El Archivo se guardó exitosamente
+        </div>
+    </div>
+</div>
