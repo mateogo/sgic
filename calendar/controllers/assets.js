@@ -154,4 +154,4 @@ exports.delete = function(req, res) {
         });
     });
 }
-//mgo agregue esta linea
+//mgo modifique esta linea
