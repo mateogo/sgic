@@ -34,51 +34,22 @@
                             <span class="help-inline"></span>
                         </div>
                     </div>
-                    
-                    <div class="control-group">
-                        <label for="uri" class="control-label">URI:</label>
-                        <div class="controls">
-                            <input type="text" class="input-large" id="uri" name="uri" placeholder='uri' value="<%= uri %>" disabled/>
-                            <span class="help-inline"></span>
-                        </div>
+
+                    <div class="offset1">
+                        <h4><a href="<%= urlpath %>">Descargar la version actual</a></h4>
                     </div>
 
-
-                    <div class="control-group">
-                        <label for="lastModifiedDate" class="control-label">Fecha Modificacion:</label>
-                        <div class="controls">
-                            <input type="text" class="input-large" id="lastModifiedDate" name="lastModifiedDate" placeholder='lastModifiedDate' value="<%= lastModifiedDate %>" disabled/>
-                            <span class="help-inline"></span>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label for="mime" class="control-label">Mime: </label>
-                        <div class="controls">
-                            <input type="text" class="input-large" id="mime" name="mime" placeholder='mime' value="<%=mime %>" disabled/>
-                            <span class="help-inline"></span>
-                        </div>
-                    </div>
-
-                   <div class="control-group">
-                        <label for="size" class="control-label">Tamaño: </label>
-                        <div class="controls">
-                            <input type="text" class="input-large" id="size" name="size" placeholder='size' value="<%=size %> bytes" disabled/>
-                            <span class="help-inline"></span>
-                        </div>
-                    </div>
-                   <div class="control-group">
-                        <label for="related['project']" class="control-label">Proyecto: </label>
-                        <div class="controls">
-                            <input type="text" class="input-large" id="related['project']" name="related['project']" placeholder='related' value="<%=related['project'] %>" disabled/>
-                            <span class="help-inline"></span>
-                        </div>
+                    <div class="offset1">
+                        <h4>Versiones</h4>
+                        <ul id='versionslist' class="thumbnails span6"> </ul>
                     </div>
                 </div>
+                <!-- Fin de span8 -->
 
                 <div class="span4">
                     <div class="well" style="width: 180px;text-align: center;width:50%;margin: 0px auto;">
-                        <p><img id="picture" name='uploadfile' width="180" src="pics/prj-IC-M-TV.png"/></p>
-                        <p style="color:#999;">Para modificar la imagen, arrastre la nueva imgen al recuadro.</p>
+                        <p><img id="picture" name='uploadfile' width="180" src="pics/ass-update.png"/>
+                        </p>
                         <p id='uploaded'></p>
                         <div class="progress">
                             <div id='uplprogressbar' class="bar" style="width: 0%;"></div>
@@ -86,11 +57,7 @@
 
                     </div>
                     <div class="well" style="width: 180px;text-align: center;width:50%;margin: 0px auto;">
-                        <a href="#"  class="btn btn-block btn-primary addresources">Alta recursos</a>
-                        <a href="#"  class="btn btn-block btn-success browseresources">Ver recursos</a>
-                        <a href="#"  class="btn btn-block btn-primary addquotation">Alta requisitoria</a>
-                        <a href="#"  class="btn btn-block btn-success browsequotations">Ver requisitorias</a>
-
+                        <a href="#"  class="btn btn-block btn-primary addresources">Archivo nuevo</a>
                     </div>
  
                 </div>

@@ -1,6 +1,6 @@
-window.ProjectListLayoutView = Backbone.View.extend({
+window.AssetLayoutView = Backbone.View.extend({
 
-    whoami:'ProjectListLayoutView',
+    whoami:'AssetLayoutView',
 
 
     initialize:function () {
@@ -8,7 +8,8 @@ window.ProjectListLayoutView = Backbone.View.extend({
     },
 
     render:function () {
-        $(this.el).html(this.template(this.model.toJSON()));
+        $(this.el).html(this.template());
+        //$(this.el);
         return this;
     },
 

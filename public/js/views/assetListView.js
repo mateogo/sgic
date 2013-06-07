@@ -1,7 +1,7 @@
-window.FilesListView = Backbone.View.extend({
+window.AssetListView = Backbone.View.extend({
 
 
-    whoami:'FilesListView',
+    whoami:'AssetListView',
 
     paginatorPath: '#navegar/recursos/pag/',
 
@@ -19,10 +19,8 @@ window.FilesListView = Backbone.View.extend({
         var startPos = (this.options.page - 1) * 12;
         var endPos = Math.min(startPos + 12, len);
 
-
-        $(this.el).html('<ul class="thumbnail"></ul>');
-/*
-        for (var i = startPos; i < endPos; i++) {
+        $(this.el).html('<ul class="thumbnails"></ul>');
+/*      for (var i = startPos; i < endPos; i++) {
             $('.thumbnails', this.el).append(new ResourceListItemView({model: resources[i]}).render().el);
         }
 
@@ -30,11 +28,13 @@ window.FilesListView = Backbone.View.extend({
 
         return this;*/
 
-        for (var i = 0; i < len; i++) {
+        /*for (var i = 0; i < len; i++) {
             $('.thumbnail', this.el).append(new FilesListItemView({model: assets[i]}).render().el);
-        }
-        
+        }*/
 
+        for (var i = 0; i < len; i++){
+            $('.thumbnails', this.el).append(new AssetListItemView({model: assets[i]}).render().el);
+        }
 
         $(this.el).append(new Paginator({model: this.model, paginatorPath: this.paginatorPath, page: this.options.page}).render().el);
 
@@ -42,7 +42,7 @@ window.FilesListView = Backbone.View.extend({
     }
 });
 
-window.FilesListItemView = Backbone.View.extend({
+window.AssetListItemView = Backbone.View.extend({
 
     tagName: "li",
     

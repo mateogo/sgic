@@ -9,23 +9,39 @@ window.AssetView = Backbone.View.extend({
 
     initialize: function () {
         this.render();
+
     },
 
     render: function () {
         //Renderizar el modelo usando la vista template 
         $(this.el).html(this.template(this.model.toJSON()));
+        //recuperar el array de versions
+        
+            //var vers=asset.get("versions");
+            var vers=this.model.get("versions");
+            len=vers.length;
+            //inicializar el desde / hasta del for
+            // ejecutar el for para cada elemento del array, mandando a este como 'model'
+            //console.log("valor de longitud del for: "+len);
+            for (var i = len-1; i >=0 ; i--)
+            {
+                $('#versionslist',this.el).append(new AssetVersionListItemView({model: vers[i]}).render().el);
+                //console.log("dentro del ciclo:"+vers[i].name);
+            }
+
+
+
         return this;
     },
 
     events: {
         
-        "change"           : "change",
-        "click .save"      : "beforeSave",
-        "click .delete"       : "deleteAsset",
-        /*
-        "dragover #picture" : "dragoverHandler",
-        "drop #picture"     : "dropHandler"
-        */
+        "change"                 : "change",
+        "click .save"            : "beforeSave",
+        "click .delete"          : "deleteAsset",
+        "dragover #picture"      : "dragoverHandler",
+        "drop #picture"          : "dropHandler"
+        
     },
 
     change: function (event) {
@@ -99,8 +115,6 @@ window.AssetView = Backbone.View.extend({
 
     dragoverHandler: function (event) {
         var e = event.originalEvent;
-        //event.stopPropagation();
-        //event.preventDefault();
         e.stopPropagation();
         e.preventDefault();
         console.log('dragoverHandler:assetdetails');
@@ -108,28 +122,22 @@ window.AssetView = Backbone.View.extend({
 
     dropHandler: function (event) {
         var e = event.originalEvent;
-        //event.stopPropagation();
-        //event.preventDefault();
+        var currentasset = this.model;
+        var assetview = this;
         e.stopPropagation();
         e.preventDefault();
         e.dataTransfer.dropEffect = 'copy';
-
+        
         $('#uplprogressbar').css({'width':'0%'});
         console.log('dropHandler:assetdetails');
 
-        //Read the image file from the local file system and display it in the img tag
-
-        //this.pictureFile = e.dataTransfer.files[0];
-        //var reader = new FileReader();
-        //reader.onloadend = function () {
-        //   $('#picture').attr('src', reader.result);
-        //};
-        //reader.readAsDataURL(this.pictureFile);
-
         this.uploadingfiles = e.dataTransfer.files;
-        var folder = '/prj/' + (this.model.id || 'calendar');
-        var assetid = this.model.id || ''
-        //alert('a ver...');
+
+        var urlstr = this.model.get('urlpath');
+
+        var folder = urlstr.substring(5,urlstr.lastIndexOf('/'));
+        // sbstr(comienzo, cantchars)
+        // substring(comienzo,fin)
 
          //Use FormData to send the files
         var formData = new FormData();
@@ -139,8 +147,9 @@ window.AssetView = Backbone.View.extend({
          //but for this example i will skip that
         formData.append('loadfiles', this.uploadingfiles[0]);
         formData.append('folder',folder);
-
+        //comienzo del objeto ajax.
         var xhr = new XMLHttpRequest();
+        
         xhr.open('POST', '/files');
         xhr.onload = function() {
             var srvresponse = JSON.parse(xhr.responseText);
@@ -149,28 +158,12 @@ window.AssetView = Backbone.View.extend({
             $('#uplprogressbar').css({'width':'100%'});
             $('#uploaded').html(filelink);
             // create new asset-entry
-            var as = {
-                name: srvresponse.uploaded,
-                slug: srvresponse.uploaded,
-                denom: srvresponse.uploaded,
-                uri: srvresponse.urlpath,
-                mime: srvresponse.mime,
-                type: srvresponse.type,
-                size: srvresponse.size,
-                lastModifiedDate: srvresponse.lastModifiedDate,
-                related:{asset: assetid}
-            };
-            console.log('creating new asset');
-            var asset = new Asset(as);
-            asset.save(null, {
-                success: function (model) {
-                  console.log('Success new asset!');
-                },
-                error: function () {
-                    utils.showAlert('Error', 'An error occurred while trying to delete this item', 'alert-error');
-               }
-            });
-            console.log('asset created');
+
+            currentasset.get('versions').push(srvresponse.fileversion);
+            currentasset.set('name',srvresponse.name);
+            currentasset.set('urlpath',srvresponse.urlpath);
+            assetview.beforeSave();
+
         };
         xhr.upload.onprogress = function(event) {
             if (event.lengthComputable) {
@@ -183,5 +176,23 @@ window.AssetView = Backbone.View.extend({
     },
 
 
+
+});
+
+window.AssetVersionListItemView = Backbone.View.extend({
+
+    tagName: "li",
+    className:"",
+    
+    initialize: function () {
+        //this.model.bind("change", this.render, this);
+        //this.model.bind("destroy", this.close, this);
+    },
+
+    render: function () {
+        $(this.el).html(this.template(this.model));
+        //console.log("dentro de render, modelo: "+this.model.name);
+        return this;
+    }
 
 });
