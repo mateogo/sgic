@@ -165,8 +165,11 @@
 
         <div class="span4">
           <div class="well" style="width: 180px;text-align: center;width:50%;margin: 0px auto;">
-              <p><img id="picture"
+              <p><img id="picture" name='uploadfile' 
               src="<%= picture === null ? 'pics/res-update.png' : 'pics/' + picture %>"/></p>
+              <div class="progress">
+                <div id='uplprogressbar' class="bar" style="width: 0%;"></div>
+              </div> 
           </div>
           <div class="well" style="width: 180px;text-align: center;width:50%;margin: 0px auto;">
               <a href="#" class="btn btn-block btn-inverse clonar">Clonar recurso!</a>

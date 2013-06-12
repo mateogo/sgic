@@ -22,6 +22,8 @@ var coreApp  = __dirname + '/core';
 
 // Load configurations
 // modified to see if joel notice it
+console.log('NODE_APP_MODE: ['+process.env.NODE_APP_MODE +"]");
+console.log('NODE_PORT: ['+process.env.NODE_PORT +"]");
 var env = process.env.NODE_APP_MODE || 'development'
 var config = require(coreApp + '/config/config')[env];
 

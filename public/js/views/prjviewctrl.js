@@ -45,11 +45,53 @@ var resourceviewsuccess = function(res){
 
     var reqResDetailView = new ReqResDetailView({model:res});
     $('#reslist').append(reqResDetailView.render().el);
+    // todo: listar los files del resource
+
 };
+
+var resourcelist = function(res){
+    utils.prjmodel.resource = res;
+    
+    console.log('resourceviewsuccess: [%s]',res.get('slug'));
+
+    var reqResListView = new ResourceListItemView({model:res,tagName:'div'});
+    $('#reslist').append(reqResListView.render().el);  
+
+    var reqResDetailView = new ReqResDetailView({model:res});
+    $('#reslist').append(reqResDetailView.render().el);
+    // todo: listar los files del resource
+
+};
+
+window.resourceassetlist = function(res){
+    var query = {'related.resource': res.id },
+        assetList = new AssetCollection();
+
+    assetList.fetch({
+        data: query,
+        type: 'post',
+        success: function(assetList) {
+            resourcelist();
+
+            if(assetList.length>0){
+                $('#reslist').append('<h5>archivos</h5>');
+                assetList.each(resassetviewsuccess);   
+            }
+        }
+    });
+};
+
+var resassetviewsuccess = function(asset){
+    console.log('assetviewsuccess: [%s]',asset.get('slug'));
+
+    var assetListItemView = new AssetListItemView({model:asset,tagName:'div', className:'span8'});
+    $('#reslist').append(assetListItemView.render().el);  
+};
+
 
 window.assetsview = function(){
     console.log('assetsview:prjviewctrl.js [' + utils.resourcesQueryData().getProject()+']');
-    var query = {related: {project: utils.resourcesQueryData().getProjectId()}},
+    var query = {'related.project': utils.resourcesQueryData().getProjectId() },
         assetList = new AssetCollection();
 
     assetList.fetch({

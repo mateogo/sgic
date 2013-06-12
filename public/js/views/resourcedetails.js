@@ -7,8 +7,8 @@ window.ResourceView = Backbone.View.extend({
     whoami:'ResourceView',
 
     initialize: function () {
-        //alert('ResourceView: project:['+ this.project.denom+']');
         this.render();
+        this.assetlist();
     },
 
     render: function () {
@@ -24,6 +24,7 @@ window.ResourceView = Backbone.View.extend({
         "click .delete"     : "deleteNode",
         "click .clonar"     : "clone",
         "click .browse"     : "browse",
+        "dragover"          : "dragoverHandler",
         "drop #picture"     : "dropHandler"
     },
 
@@ -106,7 +107,6 @@ window.ResourceView = Backbone.View.extend({
     },
 
     browse: function () {
-        //utils.resourcesQueryData().setProject(this.model.get('project')._id,this.model.get('denom'));
         utils.approuter.navigate('navegar/recursos', true);
         return false;
     },
@@ -121,20 +121,77 @@ window.ResourceView = Backbone.View.extend({
         this.model.set({quote:utils.editor.getContent('quotetext')});
     },
  
+    dragoverHandler: function (event) {
+        console.log('dragoverHandler:resourcedetails');
+        var e = event.originalEvent;
+        e.stopPropagation();
+        e.preventDefault();
+    },
 
     dropHandler: function (event) {
-        event.stopPropagation();
-        event.preventDefault();
+        var resmodel = this.model;
         var e = event.originalEvent;
+        e.stopPropagation();
+        e.preventDefault();
         e.dataTransfer.dropEffect = 'copy';
-        this.pictureFile = e.dataTransfer.files[0];
 
-        // Read the image file from the local file system and display it in the img tag
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            $('#picture').attr('src', reader.result);
+        $('#uplprogressbar').css({'width':'0%;'});
+        console.log('dropHandler:resourcedetails');
+
+        this.uploadingfiles = e.dataTransfer.files;
+
+        var folder = resmodel.assetFolder();
+
+        var formData = new FormData();
+
+        formData.append('loadfiles', this.uploadingfiles[0]);
+        formData.append('folder',folder);
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', '/files');
+        xhr.onload = function() {
+            var srvresponse = JSON.parse(xhr.responseText);
+            var filelink = '<a href="'+srvresponse.urlpath+'" >'+srvresponse.name.substr(0,20)+'</a>'
+
+            console.log('xhr.onload:resourcedetails: '+filelink);
+
+            $('#uplprogressbar').css({'width':'100%;'});
+            $('#uploaded').html(filelink);
+
+            resmodel.updateAsset(srvresponse, function(what){
+                utils.showAlert('Success', what, 'alert-error');
+            });
         };
-        reader.readAsDataURL(this.pictureFile);
+        xhr.upload.onprogress = function(event) {
+            console.log('xhr.onprogres:resourcedetails: !!! ');
+            if (event.lengthComputable) {
+                var complete = (event.loaded / event.total * 100 | 0);
+                $('#uplprogressbar').css({'width':complete+'%'});
+            }
+        };
+        xhr.send(formData);
+    },
+
+    assetlist: function(){
+        var query = {'related.resource': this.model.id },
+            assetList = new AssetCollection();
+
+        assetList.fetch({
+            data: query,
+            type: 'post',
+            success: function(assetList) {
+                if(assetList.length>0){
+                    //$('#assets').append('<h5>archivos</h5>');
+                    assetList.each(function(asset){
+                        console.log('assetviewsuccess: [%s]',asset.get('slug'));
+                        var assetListItemView = new AssetListItemView({model:asset,tagName:'div', className:'span8'});
+                        $('#assets').append(assetListItemView.render().el);
+                    });
+                }
+            }
+        });
     }
+
 
 });

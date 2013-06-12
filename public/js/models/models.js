@@ -364,6 +364,38 @@ window.Resource = Backbone.Model.extend({
         return _.size(messages) > 0 ? {isValid: false, messages: messages} : {isValid: true};
     },
 
+    updateAsset: function(data, cb){
+        // create new asset-entry
+        var as = {};
+        as.versions = [];
+        as.name = data.name;
+        as.versions.push(data.fileversion);
+
+        as.urlpath = data.urlpath;
+        as.slug = as.name;
+        as.denom = as.name;
+        console.log('resmodel:creating new asset: '+this.get('project')['_id']);
+        as.related = { project: this.get('project')['_id'], resource: this.id};
+
+        var asset = new Asset(as);
+        asset.save(null, {
+            success: function (model) {
+                cb('resmodel: Success asset updated!');
+            },
+            error: function () {
+                cb('An error occurred while trying to delete this item');
+           }
+        });
+        console.log('asset created');
+    },
+
+    assetFolder: function(){
+        return '/res/' + (this.id || 'calendar');
+    },
+
+
+
+
     defaults: {
         _id: null,
         denom: "",
@@ -404,7 +436,6 @@ window.Asset = Backbone.Model.extend({
     urlRoot: "/activos",
 
     idAttribute: "_id",
-
 
     defaults: {
         _id: null,

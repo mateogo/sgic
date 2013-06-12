@@ -185,7 +185,6 @@ $(function(){
         this.uploadingfiles = e.dataTransfer.files;
 
         var folder = prjmodel.assetFolder();
-        var projectid = prjmodel.id || ''
 
         var formData = new FormData();
 
@@ -199,7 +198,7 @@ $(function(){
             var srvresponse = JSON.parse(xhr.responseText);
             var filelink = '<a href="'+srvresponse.urlpath+'" >'+srvresponse.name.substr(0,20)+'</a>'
             //console.log(xhr.responseText);
-            console.log('xhr.onload:projectetails: '+filelink);
+            console.log('xhr.onload:projectdetails: '+filelink);
             $('#uplprogressbar').css({'width':'100%;'});
             $('#uploaded').html(filelink);
             prjmodel.updateAsset(srvresponse, function(what){
