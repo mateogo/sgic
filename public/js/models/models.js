@@ -193,6 +193,7 @@ window.Project = Backbone.Model.extend({
         return _.size(messages) > 0 ? {isValid: false, messages: messages} : {isValid: true};
     },
  
+
     updateAsset: function(data, cb){
         // create new asset-entry
         var as = {};
@@ -426,7 +427,6 @@ window.ResourceCollection = Backbone.Collection.extend({
     initialize: function (model, options) {
         if(options) this.options = options;
     },
-
     url: "/navegar/recursos"
 
 });
@@ -437,11 +437,63 @@ window.Asset = Backbone.Model.extend({
 
     idAttribute: "_id",
 
+<<<<<<< HEAD
+=======
+    project:null,
+
+   initialize: function () {
+        this.validators = {};
+
+      
+    },
+
+    validateItem: function (key) {
+        return (this.validators[key]) ? this.validators[key](this.get(key)) : {isValid: true};
+    },
+
+    // TODO: Implement Backbone's standard validate() method instead.
+    validateAll: function () {
+
+        var messages = {};
+
+        for (var key in this.validators) {
+            if(this.validators.hasOwnProperty(key)) {
+                var check = this.validators[key](this.get(key));
+                if (check.isValid === false) {
+                    messages[key] = check.message;
+                }
+            }
+        }
+
+        return _.size(messages) > 0 ? {isValid: false, messages: messages} : {isValid: true};
+    },
+
+
+
+
+
+
+
+
+    getProjectName: function(){
+        // todo: instanciar un project 
+        // if(!this.project){
+        //      var prjid = this.get("related").project;
+        //      if(!prjid) return "no definido";
+        //      this.project = new Project ({_id:prjid});
+        //}
+        // return project.getDenom();
+        // todo: agregar el metodo getDenom en project
+        // pedirle al project su nombre
+    },
+
+>>>>>>> 458c91b1f3adae06b6b9d8f66b2fba56aa66d0ab
     defaults: {
         _id: null,
         name: "",
         slug: "",
         denom: "",
+        urlpath:"",
         versions:[],
         related:{}
     }

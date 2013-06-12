@@ -26,8 +26,10 @@ var AppRouter = Backbone.Router.extend({
         "navegar/requisitorias"  : "browseQuotations",
         "navegar/requisitorias/pag/:page"  : "browseQuotations",
         "requisitorias/add"      : "addQuotation",
-        "requisitorias/:id"      : "quotationDetails"
+        "requisitorias/:id"      : "quotationDetails",
 
+        "activos/:id"            : "assetDetails"
+        
     },
 
 
@@ -201,7 +203,7 @@ var AppRouter = Backbone.Router.extend({
         //    alert('create view 1');
         //    this.resourceListLayoutView = new ResourceListLayoutView({model: utils.resourcesQueryData()});
         //}
-        $('#content').html(new ResourceListLayoutView({model: utils.resourcesQueryData()}).el);
+        //$('#content').html(new ResourceListLayoutView({model: utils.resourcesQueryData()}).el);
         //var queryset = _.clone(this.queryResourceData.attributes);
         var p = page ? parseInt(page, 10) : 1,
             query = utils.resourcesQueryData().retrieveData(),
@@ -213,13 +215,94 @@ var AppRouter = Backbone.Router.extend({
             //data: $.param({rubro:'tecnica'}),
             //data: JSON.stringify({rubro:'tecnica'}),
             success: function() {
-                $("#listcontent").html(new ResourceListView({model: resourceList, page: p}).el);
+                var rlv = new ResourceListView({model: resourceList, page: p});
+                $("#content").html(rlv.el);
             }
         });
         this.headerView.selectMenuItem('browse-menu');
         //console.log("browse resource end");
     },
+    assetDetails: function(id)
+    {  
+        console.log('assetDetails:main.js');
+        
+        if (!this.AssetLayoutView) {
+            this.AssetLayoutView = new AssetLayoutView();
+        }
 
+        $('#content').html(this.AssetLayoutView.el);
+
+        var asset = new Asset({_id: id});
+        asset.fetch( {success: function()
+        {
+            $("#listcontent").html(new AssetView({model: asset}).el);
+
+        }});
+
+        this.headerView.selectMenuItem('browse-menu');
+    },
+
+    filesList: function()
+    {
+        console.log('fileList:main.js');
+        // FIXME : El proyecto lo harcodeo, se debe pasar en la funcion
+        var query = {related: {project: '519fbc3255658d6d18000001'}};
+
+        //todo: configurar el query que realiza el callback
+        fileList = new AssetCollection();
+        //todo: 
+        fileList.fetch({
+            data: query,
+            type: 'post',
+     
+            success: function () {
+                
+                var lista= new AssetListView({model:fileList});
+                $("#content").html(lista.el);
+            }
+
+        });
+    },
+    //Esta funcion tiene que mostrar los datos de los detalles del archivo
+    assetDetailsTest: function(id)
+    {
+        /*
+        var project = new Project({ _id: id});
+        
+        project.fetch({success: function() 
+        {
+            utils.currentproject = project;
+            
+            $("#content").html(new ProjectView({model: project}).el);
+        }});
+
+        this.headerView.selectMenuItem();
+
+        return false;
+        */
+        
+        // Backbone se encarga de pasarle el id correspondiente
+        // asset.fetch le ordena a backbone ir a buscar el objeto
+        // al servidor, con el id pasado por argumento, cuando
+        // asset.fetch es configurado con el objeto {success: function()
+        // {
+        // $("#content").html(new AssetView({model:asset}))
+        // Este asset esta siendo referenciado utilizando la tecnica closure. 
+        // donde el objeto no muere y sigue permaneciendo activo.
+        // AssetView es la vista, que le paso el model adecuado para armarla
+        // AssetView  referencia al controlador de la vista que extiende de backbone. 
+        // }}
+
+        console.log('assetDetails:main.js');
+
+        var asset = new Asset({_id: id});
+
+        asset.fetch( {success: function()
+        {
+            $("#content").html(new AssetView({model: asset}).el);
+
+        }});
+    },
     addResource: function() {
         console.log('addResource:main.js');
         $('#content').html(new ResourceListLayoutView({model: utils.resourcesQueryData()}).el);
@@ -234,14 +317,16 @@ var AppRouter = Backbone.Router.extend({
         //this.headerView.selectMenuItem('add-menu');
     }
 });
-
+ 
 utils.loadTemplate(['HomeView', 'HeaderView', 'AboutView', 'ProjectListLayoutView', 'ProjectView',
     'ProjectListItemView', 'ResourceView', 'ResourceListItemView', 
     'ResourceListLayoutView', 'ResourceQuoteView',
     'QuotationListLayoutView', 'QuotationView', 'QuotationResourceItemView', 'QuotationListItemView',
-    'PrjHeaderView','ProjectViewLayout','ReqResDetailView','AssetListItemView'], function() {
+    'PrjHeaderView','ProjectViewLayout','ReqResDetailView','AssetListItemView','AssetListItemView','AssetVersionListItemView','AssetView','AssetLayoutView'], function() {
     app = new AppRouter();
     utils.approuter = app;
     Backbone.history.start();
 });
 //$ Backbone HeaderView utils ResourceView ResourceCollection HomeView AboutView ProjectCollection ProjectListLayoutView ProjectListView ProjectView ResourceListLayoutView ResourceListView app Project Resource
+
+// AssetView, que carga el objeto utils.loadTemplate([AssetView]) se hace referencia al nombre del archivo html donde se van cargar los html

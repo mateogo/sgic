@@ -1,11 +1,13 @@
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" 
-    href="#<%= _id %>" style='display:inline;'><i class="icon-edit"></i><a href='<%= urlpath %>' ><%= slug.substr(0,22) %></a></a>
-  </div>
-  <div id="<%= _id %>" class="accordion-body collapse">
-    <input type='text' placeholder='nombre corto'  name='slug' value='<%= slug %>' >
-    <input type='text' placeholder='nombre corto'  name='slug' value='<%= slug %>' >
-    <input type='text' disabled name='name' value='<%= name %>' >
-  </div>
+<a href="#activos/<%=_id %>" class="row-fluid" >
+
+<div>
+    <div>Nombre: <%= name %></div>
+    
+    <div>Slug: <%= slug %></div>
+    
+    <div>denominacion: <% denom %></div>
+        
+    <div>Proyecto relacionado: <% related.project._id %></div>
 </div>
+
+</a>
