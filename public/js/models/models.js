@@ -437,8 +437,6 @@ window.Asset = Backbone.Model.extend({
 
     idAttribute: "_id",
 
-<<<<<<< HEAD
-=======
     project:null,
 
    initialize: function () {
@@ -487,7 +485,6 @@ window.Asset = Backbone.Model.extend({
         // pedirle al project su nombre
     },
 
->>>>>>> 458c91b1f3adae06b6b9d8f66b2fba56aa66d0ab
     defaults: {
         _id: null,
         name: "",

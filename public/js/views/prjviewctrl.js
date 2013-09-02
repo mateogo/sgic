@@ -84,8 +84,8 @@ window.resourceassetlist = function(res){
 var resassetviewsuccess = function(asset){
     console.log('assetviewsuccess: [%s]',asset.get('slug'));
 
-    var assetListItemView = new AssetListItemView({model:asset,tagName:'div', className:'span8'});
-    $('#reslist').append(assetListItemView.render().el);  
+    var assetAccordionView = new AssetAccordionView({model:asset,tagName:'div', className:'span8'});
+    $('#reslist').append(assetAccordionView.render().el);  
 };
 
 
@@ -109,8 +109,8 @@ window.assetsview = function(){
 var assetviewsuccess = function(asset){
     console.log('assetviewsuccess: [%s]',asset.get('slug'));
 
-    var assetListItemView = new AssetListItemView({model:asset,tagName:'div'});
-    $('#assets').append(assetListItemView.render().el);  
+    var assetAccordionView = new AssetAccordionView({model:asset,tagName:'div'});
+    $('#assets').append(assetAccordionView.render().el);  
 };
     
 
@@ -159,7 +159,7 @@ window.ReqResListView = Backbone.View.extend({
     },
 });
 
-window.AssetListItemView = Backbone.View.extend({
+window.AssetAccordionView = Backbone.View.extend({
 
     events: {
         "change"            : "change",

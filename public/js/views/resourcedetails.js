@@ -185,8 +185,8 @@ window.ResourceView = Backbone.View.extend({
                     //$('#assets').append('<h5>archivos</h5>');
                     assetList.each(function(asset){
                         console.log('assetviewsuccess: [%s]',asset.get('slug'));
-                        var assetListItemView = new AssetListItemView({model:asset,tagName:'div', className:'span8'});
-                        $('#assets').append(assetListItemView.render().el);
+                        var assetListItemView = new AssetAccordionView({model:asset,tagName:'div', className:'span8'});
+                        $('#assets').append(assetAccordionView.render().el);
                     });
                 }
             }

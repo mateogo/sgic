@@ -322,7 +322,8 @@ utils.loadTemplate(['HomeView', 'HeaderView', 'AboutView', 'ProjectListLayoutVie
     'ProjectListItemView', 'ResourceView', 'ResourceListItemView', 
     'ResourceListLayoutView', 'ResourceQuoteView',
     'QuotationListLayoutView', 'QuotationView', 'QuotationResourceItemView', 'QuotationListItemView',
-    'PrjHeaderView','ProjectViewLayout','ReqResDetailView','AssetListItemView','AssetListItemView','AssetVersionListItemView','AssetView','AssetLayoutView'], function() {
+    'PrjHeaderView','ProjectViewLayout','ReqResDetailView','AssetListItemView',
+    'AssetAccordionView','AssetVersionListItemView','AssetView','AssetLayoutView'], function() {
     app = new AppRouter();
     utils.approuter = app;
     Backbone.history.start();
